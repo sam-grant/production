@@ -1,0 +1,458 @@
+30-Mar-2020 18:40:04 CDT  Initiating request to open input file "/pnfs/GM2/daq/run1/offline/gm2_5040A/runs_15000/15921/gm2offline_full_23485958_15921.00369.root"
+30-Mar-2020 18:40:04 CDT  Opened input file "/pnfs/GM2/daq/run1/offline/gm2_5040A/runs_15000/15921/gm2offline_full_23485958_15921.00369.root"
+Begin processing the 1st record. run: 15921 subRun: 369 event: 1 at 30-Mar-2020 18:40:09 CDT
+
+**********************************************************
+
+Number of calo vertices:	184
+Number of unmatched decay vertices:	180
+Number of matched decay vertices:	184
+
+**********************************************************
+
+Number of calo vertices:	181
+Number of unmatched decay vertices:	176
+Number of matched decay vertices:	181
+
+**********************************************************
+
+Number of calo vertices:	176
+Number of unmatched decay vertices:	171
+Number of matched decay vertices:	176
+
+**********************************************************
+
+Number of calo vertices:	179
+Number of unmatched decay vertices:	177
+Number of matched decay vertices:	179
+
+**********************************************************
+
+Number of calo vertices:	140
+Number of unmatched decay vertices:	140
+Number of matched decay vertices:	140
+
+**********************************************************
+
+Number of calo vertices:	169
+Number of unmatched decay vertices:	165
+Number of matched decay vertices:	169
+
+**********************************************************
+
+Number of calo vertices:	159
+Number of unmatched decay vertices:	157
+Number of matched decay vertices:	159
+
+**********************************************************
+
+Number of calo vertices:	184
+Number of unmatched decay vertices:	179
+Number of matched decay vertices:	184
+
+**********************************************************
+
+Number of calo vertices:	136
+Number of unmatched decay vertices:	132
+Number of matched decay vertices:	136
+
+**********************************************************
+
+Number of calo vertices:	137
+Number of unmatched decay vertices:	135
+Number of matched decay vertices:	137
+
+**********************************************************
+
+Number of calo vertices:	157
+Number of unmatched decay vertices:	153
+Number of matched decay vertices:	157
+
+**********************************************************
+
+Number of calo vertices:	174
+Number of unmatched decay vertices:	174
+Number of matched decay vertices:	174
+
+**********************************************************
+
+Number of calo vertices:	131
+Number of unmatched decay vertices:	130
+Number of matched decay vertices:	131
+
+**********************************************************
+
+Number of calo vertices:	146
+Number of unmatched decay vertices:	145
+Number of matched decay vertices:	146
+
+**********************************************************
+
+Number of calo vertices:	173
+Number of unmatched decay vertices:	169
+Number of matched decay vertices:	173
+
+**********************************************************
+
+Number of calo vertices:	190
+Number of unmatched decay vertices:	185
+Number of matched decay vertices:	190
+
+**********************************************************
+
+Number of calo vertices:	159
+Number of unmatched decay vertices:	154
+Number of matched decay vertices:	159
+
+**********************************************************
+
+Number of calo vertices:	173
+Number of unmatched decay vertices:	169
+Number of matched decay vertices:	173
+
+**********************************************************
+
+Number of calo vertices:	140
+Number of unmatched decay vertices:	135
+Number of matched decay vertices:	140
+
+**********************************************************
+
+Number of calo vertices:	138
+Number of unmatched decay vertices:	134
+Number of matched decay vertices:	138
+
+**********************************************************
+
+Number of calo vertices:	136
+Number of unmatched decay vertices:	132
+Number of matched decay vertices:	136
+
+**********************************************************
+
+Number of calo vertices:	141
+Number of unmatched decay vertices:	140
+Number of matched decay vertices:	141
+
+**********************************************************
+
+Number of calo vertices:	171
+Number of unmatched decay vertices:	161
+Number of matched decay vertices:	171
+
+**********************************************************
+
+Number of calo vertices:	167
+Number of unmatched decay vertices:	162
+Number of matched decay vertices:	167
+
+**********************************************************
+
+Number of calo vertices:	154
+Number of unmatched decay vertices:	148
+Number of matched decay vertices:	154
+
+**********************************************************
+
+Number of calo vertices:	124
+Number of unmatched decay vertices:	118
+Number of matched decay vertices:	123
+
+**********************************************************
+
+Number of calo vertices:	192
+Number of unmatched decay vertices:	188
+Number of matched decay vertices:	192
+
+**********************************************************
+
+Number of calo vertices:	163
+Number of unmatched decay vertices:	162
+Number of matched decay vertices:	163
+
+**********************************************************
+
+Number of calo vertices:	135
+Number of unmatched decay vertices:	135
+Number of matched decay vertices:	135
+
+**********************************************************
+
+Number of calo vertices:	168
+Number of unmatched decay vertices:	163
+Number of matched decay vertices:	168
+
+**********************************************************
+
+Number of calo vertices:	178
+Number of unmatched decay vertices:	175
+Number of matched decay vertices:	178
+
+**********************************************************
+
+Number of calo vertices:	186
+Number of unmatched decay vertices:	178
+Number of matched decay vertices:	186
+
+**********************************************************
+
+Number of calo vertices:	163
+Number of unmatched decay vertices:	157
+Number of matched decay vertices:	163
+
+**********************************************************
+
+Number of calo vertices:	174
+Number of unmatched decay vertices:	168
+Number of matched decay vertices:	174
+
+**********************************************************
+
+Number of calo vertices:	161
+Number of unmatched decay vertices:	156
+Number of matched decay vertices:	161
+
+**********************************************************
+
+Number of calo vertices:	161
+Number of unmatched decay vertices:	156
+Number of matched decay vertices:	159
+
+**********************************************************
+
+Number of calo vertices:	141
+Number of unmatched decay vertices:	138
+Number of matched decay vertices:	140
+
+**********************************************************
+
+Number of calo vertices:	144
+Number of unmatched decay vertices:	141
+Number of matched decay vertices:	144
+
+**********************************************************
+
+Number of calo vertices:	177
+Number of unmatched decay vertices:	174
+Number of matched decay vertices:	177
+
+**********************************************************
+
+Number of calo vertices:	145
+Number of unmatched decay vertices:	143
+Number of matched decay vertices:	145
+
+**********************************************************
+
+Number of calo vertices:	140
+Number of unmatched decay vertices:	138
+Number of matched decay vertices:	140
+
+**********************************************************
+
+Number of calo vertices:	150
+Number of unmatched decay vertices:	146
+Number of matched decay vertices:	150
+
+**********************************************************
+
+Number of calo vertices:	176
+Number of unmatched decay vertices:	172
+Number of matched decay vertices:	176
+
+**********************************************************
+
+Number of calo vertices:	158
+Number of unmatched decay vertices:	155
+Number of matched decay vertices:	158
+
+**********************************************************
+
+Number of calo vertices:	126
+Number of unmatched decay vertices:	124
+Number of matched decay vertices:	125
+
+**********************************************************
+
+Number of calo vertices:	152
+Number of unmatched decay vertices:	149
+Number of matched decay vertices:	152
+
+**********************************************************
+
+Number of calo vertices:	182
+Number of unmatched decay vertices:	178
+Number of matched decay vertices:	182
+Begin processing the 101st record. run: 15921 subRun: 369 event: 102 at 30-Mar-2020 18:40:28 CDT
+
+**********************************************************
+
+Number of calo vertices:	171
+Number of unmatched decay vertices:	168
+Number of matched decay vertices:	171
+
+**********************************************************
+
+Number of calo vertices:	153
+Number of unmatched decay vertices:	148
+Number of matched decay vertices:	153
+
+**********************************************************
+
+Number of calo vertices:	164
+Number of unmatched decay vertices:	160
+Number of matched decay vertices:	164
+
+**********************************************************
+
+Number of calo vertices:	168
+Number of unmatched decay vertices:	164
+Number of matched decay vertices:	168
+
+**********************************************************
+
+Number of calo vertices:	185
+Number of unmatched decay vertices:	183
+Number of matched decay vertices:	185
+
+**********************************************************
+
+Number of calo vertices:	138
+Number of unmatched decay vertices:	138
+Number of matched decay vertices:	138
+
+**********************************************************
+
+Number of calo vertices:	131
+Number of unmatched decay vertices:	127
+Number of matched decay vertices:	131
+
+**********************************************************
+
+Number of calo vertices:	174
+Number of unmatched decay vertices:	169
+Number of matched decay vertices:	174
+
+**********************************************************
+
+Number of calo vertices:	176
+Number of unmatched decay vertices:	173
+Number of matched decay vertices:	176
+
+**********************************************************
+
+Number of calo vertices:	147
+Number of unmatched decay vertices:	144
+Number of matched decay vertices:	147
+
+**********************************************************
+
+Number of calo vertices:	159
+Number of unmatched decay vertices:	154
+Number of matched decay vertices:	159
+
+**********************************************************
+
+Number of calo vertices:	162
+Number of unmatched decay vertices:	157
+Number of matched decay vertices:	162
+
+**********************************************************
+
+Number of calo vertices:	162
+Number of unmatched decay vertices:	158
+Number of matched decay vertices:	162
+
+**********************************************************
+
+Number of calo vertices:	142
+Number of unmatched decay vertices:	138
+Number of matched decay vertices:	142
+
+**********************************************************
+
+Number of calo vertices:	141
+Number of unmatched decay vertices:	136
+Number of matched decay vertices:	141
+
+**********************************************************
+
+Number of calo vertices:	190
+Number of unmatched decay vertices:	188
+Number of matched decay vertices:	190
+
+**********************************************************
+
+Number of calo vertices:	152
+Number of unmatched decay vertices:	147
+Number of matched decay vertices:	152
+
+**********************************************************
+
+Number of calo vertices:	169
+Number of unmatched decay vertices:	165
+Number of matched decay vertices:	169
+
+**********************************************************
+
+Number of calo vertices:	162
+Number of unmatched decay vertices:	157
+Number of matched decay vertices:	162
+
+**********************************************************
+
+Number of calo vertices:	172
+Number of unmatched decay vertices:	170
+Number of matched decay vertices:	172
+
+**********************************************************
+
+Number of calo vertices:	152
+Number of unmatched decay vertices:	146
+Number of matched decay vertices:	152
+
+**********************************************************
+
+Number of calo vertices:	132
+Number of unmatched decay vertices:	131
+Number of matched decay vertices:	132
+
+**********************************************************
+
+Number of calo vertices:	113
+Number of unmatched decay vertices:	112
+Number of matched decay vertices:	113
+
+**********************************************************
+
+Number of calo vertices:	166
+Number of unmatched decay vertices:	162
+Number of matched decay vertices:	166
+
+**********************************************************
+
+Number of calo vertices:	173
+Number of unmatched decay vertices:	165
+Number of matched decay vertices:	173
+
+**********************************************************
+
+Number of calo vertices:	149
+Number of unmatched decay vertices:	144
+Number of matched decay vertices:	149
+30-Mar-2020 18:40:38 CDT  Closed input file "/pnfs/GM2/daq/run1/offline/gm2_5040A/runs_15000/15921/gm2offline_full_23485958_15921.00369.root"
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 154 passed = 73 failed = 81
+
+TrigReport ------ Modules in End-Path: end_path ------------
+TrigReport  Trig Bit#        Run    Success      Error Name
+TrigReport     0    0         73         73          0 trackAndTrackCalo
+
+TimeReport ---------- Time  Summary ---[sec]----
+TimeReport CPU = 30.108424 Real = 30.152855
+
+MemReport  ---------- Memory  Summary ---[base-10 MB]----
+MemReport  VmPeak = 1811.82 VmHWM = 984.523
+
+Art has completed and will exit with status 0.

@@ -1,0 +1,85 @@
+
+
+#include "messageParams.fcl"
+#include "geom/strawtracker.fcl"
+#include "trackingConfig.fcl"
+#include "conDBParams.fcl"
+
+process_name : tree
+
+source : {
+  module_type : RootInput
+  maxEvents   : -1
+}
+
+services : {
+
+  FileCatalogMetadata : {
+    applicationFamily  : "tracker"
+    applicationVersion : "v8_03_01"
+    fileType           : "offline"
+  }
+
+  message : {
+    debugModules : []
+    suppressInfo : []
+
+    destinations : {
+      LogToConsole : {
+        type       : "cout"
+        threshold  : "INFO"
+	       categories : @local::message_categories
+      }
+      LogToFile : {
+        type      : "file"
+        filename  : "trackRecoTree.log"
+        append    :  false
+        threshold : "INFO"
+        categories : @local::message_categories
+      }
+    }
+  }  // end of message services
+
+      DetectorHolder    : {}	
+      ActionHolder      : {}
+      CoordSystemsStore : {}
+      Gm2Constants : {}
+
+
+  Geometry : {
+    strawtracker : @local::strawtracker_geom
+  }
+
+  StrawTrackerGeometry : {}
+  StrawTrackerGeometryConstants : { DatabaseURL : @local::condb_prod_params } # dev db is @local::condb_dev_params
+
+  TFileService : {
+    fileName : "trackRecoTree.root"
+  }
+
+
+  TrackQuality : {}
+  
+
+} // end of services block
+   
+physics : {
+
+  filters : {
+    noDigitsFilter : { module_type : NoDigitsFilter }
+  }
+
+  analyzers : {
+    trackReco : {
+      module_type : TrackNTupBackwardsOnly
+      SelectEvents:["offline:strawPathwithDQC"]
+    }
+  } 
+
+  filterPath : [ noDigitsFilter ] #, trackCaloMatching ]
+  treePath : [ trackReco ]
+  
+  trigger_paths : [] # matchingPath] 
+  end_paths     : [treePath]
+
+} // end of physics block
