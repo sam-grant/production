@@ -17,18 +17,14 @@ void Plotter::InitHistos() {
   // Radial position resolution at 1.5 GeV is 1 mm
   // Time resolution is around 1 ns
   // Factor of 0.148936 removes the fast rotation
-//  plot1D("DecayTime", 4700, 0, 4700*0.148936, "Decay time [#mus]","Entries"); 
-//  plot2D("DecayX_vs_DecayZ", 1000, -8000, 8000, 1000, -8000, 8000, "Decay time [#mus]", "Radial decay vertex [mm]");
-//  plot2D("RadialDecayVertex_vs_DecayTime", 4700, 0, 4700*0.148936, 140, -70, 70, "Decay time [#mus]", "Radial decay vertex [mm]");
-//
-//  for(int stn = 12; stn<19; stn = stn + 6) {
-//    
-//    //plot1D("S"+std::to_string(stn)+"_DecayTime", 4700, 0, 4700*0.148936, "Decay time [ns]","Entries"); 
-//    plot2D("S"+std::to_string(stn)+"_DecayX_vs_DecayZ", 1000, -8000, 8000, 1000, -8000, 8000, "Decay time [#mus]", "Radial decay vertex [mm]");
-//    plot2D("S"+std::to_string(stn)+"_RadialDecayVertex_vs_DecayTime", 4700, 0, 4700*0.148936, 140, -70, 70, "Decay time [#mus]", "Radial decay vertex [mm]");
-//  
-//  }
 
+  // Tracker plots
+  plot1D("pValues",1000,0,1,"p-values");
+  plot1D("trackT0",6000,0,900000,"Track T0 [ns]");
+  plot1D("trackMomentum",128,0,3200,"Track momentum [MeV]");
+  plot1D("strawHits",34,-0.5,33.5,"Layers hit");
+
+  // vertex plots
   plot1D("radialPos",400,-200,200,"Radial position [mm]");
   plot1D("verticalPos",400,-200,200,"Vertical position [mm]");
   plot1D("decayVertexMom",128,0,3200,"Decay vertex momentum [MeV]");
@@ -50,8 +46,17 @@ void Plotter::Run() {
   //loop over the clusterTracker/tracker tree:
   while( NextTrEvent() ) {
 
+    int run = tr->runNum;
+    int subRun = tr->subRunNum;
+    if(run==16154 && subRun==30) std::cout<<run<<"\t"<<subRun<<std::endl;
+
     //if(!tr->passVertexQuality) continue;
     if(!tr->passTrackQuality) continue;
+
+    Fill1D("pValues",tr->trackPValue);
+    Fill1D("trackT0",tr->trackT0);
+    Fill1D("trackMomentum",tr->trackMomentum);
+    Fill1D("strawHits",tr->nHits);
 
     double R = sqrt(pow(tr->decayVertexPosX,2)+pow(tr->decayVertexPosZ,2))-7112;
     double p = sqrt(pow(tr->decayVertexMomX,2)+pow(tr->decayVertexMomY,2)+pow(tr->decayVertexMomZ,2));

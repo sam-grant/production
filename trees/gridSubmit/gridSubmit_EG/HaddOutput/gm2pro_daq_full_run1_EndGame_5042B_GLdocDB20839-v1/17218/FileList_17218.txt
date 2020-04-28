@@ -1,5 +1,0 @@
-/pnfs/GM2/scratch/users/sgrant/TrackCaloMatching/17218/trackCaloMatching_17218.00015.root
-/pnfs/GM2/scratch/users/sgrant/TrackCaloMatching/17218/trackCaloMatching_17218.00016.root
-/pnfs/GM2/scratch/users/sgrant/TrackCaloMatching/17218/trackCaloMatching_17218.00017.root
-/pnfs/GM2/scratch/users/sgrant/TrackCaloMatching/17218/trackCaloMatching_17218.00018.root
-/pnfs/GM2/scratch/users/sgrant/TrackCaloMatching/17218/trackCaloMatching_17218.00019.root

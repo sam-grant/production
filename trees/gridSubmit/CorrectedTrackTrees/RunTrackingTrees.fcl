@@ -1,0 +1,95 @@
+#include "messageParams.fcl"
+#include "geom/world.fcl"
+#include "geom/strawtracker.fcl"
+#include "trackingConfig.fcl"
+#include "geom/gm2FieldManager.fcl"
+#include "geom/magnetIronAndCryostat.fcl"
+#include "geom/inflector.fcl"
+#include "geom/kicker.fcl"
+#include "geom/quad.fcl"
+#include "conDBParams.fcl"
+
+process_name : trackRecoTrees
+
+source : {
+  module_type : RootInput
+  maxEvents   : -1
+}
+
+services : {
+
+  message : {
+    debugModules : []
+    suppressInfo : []
+
+    destinations : {
+      LogToConsole : {
+        type       : "cout"
+        threshold  : "INFO"
+	categories : @local::message_categories
+      }
+      LogToFile : {
+        type      : "file"
+        filename  : "trackRecoTrees.log"
+        append    :  false
+        threshold : "INFO"
+	categories : @local::message_categories
+      }
+    }
+  } #end of message services
+ 
+  DetectorHolder    : {}
+  ActionHolder      : {}
+  CoordSystemsStore : {}
+  Gm2Constants      : {}
+  RandomNumberGenerator : {}
+
+  Geometry : {
+    world : @local::world_geom
+    strawtracker : @local::strawtracker_geom
+    magnetIronAndCryostat : @local::magnetIronAndCryostat_geom
+    inflector : @local::inflector_geom
+    kicker : @local::kicker_geom
+    quad : @local::quad_geom
+  }
+
+  World : {}
+  StrawTrackerGeometry : {}
+  StrawTrackerGeometryConstants : { DatabaseURL : @local::condb_prod_params } # dev db is @local::condb_dev_params
+
+  gm2FieldManager : @local::gm2FieldManager
+
+  TFileService: {
+    fileName: "trackRecoTrees.root"
+  }
+
+  TrackQuality : {}
+
+} // end of services block
+   
+physics : {
+
+  filters : {
+    noDigitsFilter : { module_type : NoDigitsFilter }
+  }
+
+  producers : {
+    extrapBugCorrector : { module_type : Run1ExtrapBugCorrector }
+  } 
+
+  analyzers : {
+
+    trackerNTup: {
+      module_type: TrackNTupBackwardsOnly
+      SelectEvents : ["offline:strawPathwithDQC" ]
+      vertexModuleLabel : "extrapBugCorrector"
+    } 
+
+  } 			
+
+  reco : [ noDigitsFilter, extrapBugCorrector ]
+  plot : [ trackerNTup ]
+
+  trigger_paths : [reco] 
+  end_paths     : [plot]
+} # end of physics block

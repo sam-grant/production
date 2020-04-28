@@ -1,8 +1,17 @@
 #!/bin/bash
 
-for file in `ls /gm2/data/g2be/Production/Trees/Run2/NoDQC/trackRecoTrees_*.root`; do
-    echo $file
-    ./PlotterTrack $file
+# for file in `/gm2/data/g2be/Production/Trees/Run1/trackRecoTrees_{15921..15991}.root`; do
+    # echo $file
+    # ./PlotterTrack $file
+# done
+
+# for i in {15921..15991}; do
+for i in {16355..16514}; do
+	# file=/gm2/data/g2be/Production/Trees/Run1/trackRecoTrees_${i}.root
+	echo /gm2/data/g2be/Production/Trees/Run1/trackRecoTrees_${i}.root
+    ./PlotterTrack /gm2/data/g2be/Production/Trees/Run1/trackRecoTrees_${i}.root
+    wait
 done
 
-hadd -f plots.root plots*.root
+
+#hadd -f plots.root plots*.root

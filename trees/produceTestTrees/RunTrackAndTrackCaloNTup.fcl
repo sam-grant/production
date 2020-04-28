@@ -40,7 +40,7 @@ services : {
       }
       LogToFile : {
         type      : "file"
-        filename  : "trackAndTrackCaloTree.log"
+        filename  : "trackAndTrackCaloTrees.log"
         append    :  false
         threshold : "INFO"
         categories : @local::message_categories
@@ -95,13 +95,15 @@ physics : {
       clusterModuleLabel    : hitClusterDAQ 
       clusterInstanceLabel  : cluster
       coincidenceTimeWindow : [-15,10] // ns
+      throwOnEmptyCluster : false
     }
   } // end of producer block 
 
   analyzers : {
     trackAndTrackCalo : {
       module_type : TrackAndTrackCaloNTup
-      SelectEvents : [ "matchingPath" ]
+      SelectEvents : [ "offline:muonPathwithDQC" , "offline:inFillLaserPathwithDQC" ] 
+// SelectEvents : [ "offline:strawPathwithDQC" ]
       printOut : false
       backwardModuleLabel : "extrapBugCorrector"
     }

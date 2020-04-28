@@ -55,6 +55,7 @@ class trackAndTrackCaloReader : public Reader {
    UInt_t          subRunNum;
    UInt_t          eventNum;
    UInt_t          islandNum;
+   Int_t           inFillLaserCount;
    Bool_t          passTrackQuality;
    Bool_t          passCandidateQuality;
    Bool_t          passDecayVertexQuality;
@@ -137,6 +138,7 @@ class trackAndTrackCaloReader : public Reader {
    TBranch        *b_subRunNum;   //!
    TBranch        *b_eventNum;   //!
    TBranch        *b_islandNum;   //!
+   TBranch        *b_inFillLaserCount;   //!
    TBranch        *b_passTrackQuality;   //!
    TBranch        *b_passCandidateQuality;   //!
    TBranch        *b_passDecayVertexQuality;   //!

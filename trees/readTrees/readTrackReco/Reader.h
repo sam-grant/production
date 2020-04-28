@@ -357,7 +357,7 @@ class trackerReader : public Reader {
    Float_t         caloVertexUncPX;
    Float_t         caloVertexUncPY;
    Float_t         trackT0;
-   Float_t         time;
+   //Float_t         time;
    Float_t         decayTime;
    Bool_t          hitVolume;
    Float_t         trackPValue;
@@ -405,7 +405,7 @@ class trackerReader : public Reader {
    TBranch        *b_caloVertexUncPX;   //!
    TBranch        *b_caloVertexUncPY;   //!
    TBranch        *b_trackT0;   //!
-   TBranch        *b_time;   //!
+   //TBranch        *b_time;   //!
    TBranch        *b_decayTime;   //!
    TBranch        *b_hitVolume;   //!
    TBranch        *b_trackPValue;   //!

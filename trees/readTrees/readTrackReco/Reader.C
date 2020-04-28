@@ -176,7 +176,7 @@ void trackerReader::Init() {
    LoadBranch("caloVertexMomX", caloVertexMomX, b_caloVertexUncPX);
    LoadBranch("caloVertexMomY", caloVertexMomY, b_caloVertexUncPY);
    LoadBranch("trackT0", trackT0, b_trackT0);
-   LoadBranch("time", time, b_time);
+   //LoadBranch("time", time, b_time);
    LoadBranch("decayTime", decayTime, b_decayTime);
    LoadBranch("hitVolume", hitVolume, b_hitVolume);
    LoadBranch("trackPValue", trackPValue, b_trackPValue);
