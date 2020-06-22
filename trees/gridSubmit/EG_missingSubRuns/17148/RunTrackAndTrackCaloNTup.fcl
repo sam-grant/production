@@ -1,0 +1,624 @@
+
+// Make tracker trees, which include TrackCaloMatching
+// Sam Grant - March 2020
+
+#include "messageParams.fcl"
+#include "geom/world.fcl"
+#include "geom/strawtracker.fcl"
+#include "trackingConfig.fcl"
+#include "geom/gm2FieldManager.fcl"
+#include "geom/magnetIronAndCryostat.fcl"
+#include "geom/inflector.fcl"
+#include "geom/kicker.fcl"
+#include "geom/quad.fcl"
+#include "conDBParams.fcl"
+
+process_name : tree
+
+source : {
+  module_type : RootInput
+  maxEvents   : -1
+}
+
+services : {
+
+  FileCatalogMetadata : {
+    applicationFamily  : "tracker"
+    applicationVersion : "v8_03_01"
+    fileType           : "offline"
+  }
+
+  message : {
+    debugModules : []
+    suppressInfo : []
+
+    destinations : {
+      LogToConsole : {
+        type       : "cout"
+        threshold  : "INFO"
+	       categories : @local::message_categories
+      }
+      LogToFile : {
+        type      : "file"
+        filename  : "trackAndTrackCaloTrees.log"
+        append    :  false
+        threshold : "INFO"
+        categories : @local::message_categories
+      }
+    }
+  }  // end of message services
+
+      DetectorHolder    : {}	
+      ActionHolder      : {}
+      CoordSystemsStore : {}
+      Gm2Constants : {}
+
+
+  Geometry : {
+    world : @local::world_geom
+    strawtracker : @local::strawtracker_geom
+    magnetIronAndCryostat : @local::magnetIronAndCryostat_geom
+    inflector : @local::inflector_geom
+    kicker : @local::kicker_geom
+    quad : @local::quad_geom
+  }
+
+
+  World : {}
+  StrawTrackerGeometry : {}
+  StrawTrackerGeometryConstants : { DatabaseURL : @local::condb_prod_params } # dev db is @local::condb_dev_params
+
+  gm2FieldManager : @local::gm2FieldManager
+
+  TFileService : {
+    fileName : "trackAndTrackCaloTrees.root"
+  }
+
+
+  TrackQuality : {}
+  
+
+} // end of services block
+   
+physics : {
+
+  filters : {
+    noDigitsFilter : { module_type : NoDigitsFilter }
+  }
+
+  producers : {
+
+    extrapBugCorrector : { module_type : Run1ExtrapBugCorrector }
+
+    trackCaloMatching : {
+      module_type           : TrackCaloMatching
+      clusterModuleLabel    : hitClusterDAQ 
+      clusterInstanceLabel  : cluster
+      coincidenceTimeWindow : [-15,10] // ns
+      throwOnEmptyCluster : false // set to true for the out-of-synch runs
+    }
+  } // end of producer block 
+
+  analyzers : {
+    trackAndTrackCalo : {
+      module_type : TrackAndTrackCaloNTup
+      // SelectEvents : [ "matchingPath" ]
+      // DQC... strawPath doesn't work. Matching path has no out-of-fill DQC
+      SelectEvents : [ "offline:muonPathwithDQC" , "offline:inFillLaserPathwithDQC" ]
+      //SelectEvents:["offline:strawPathwithDQC"] // "offline:strawPathwithDQC"]offline:strawPathwithDQC
+      printOut : false
+      backwardModuleLabel : "extrapBugCorrector"
+    }
+  } 
+
+  matchingPath : [ noDigitsFilter, extrapBugCorrector, trackCaloMatching ]
+  treePath : [ trackAndTrackCalo ]
+  
+  trigger_paths : [matchingPath] 
+  end_paths     : [treePath]
+
+} // end of physics block
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995316_17148.00062.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995316_17148.00062.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508913_17148.00062.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994993_17148.00066.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994993_17148.00066.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508916_17148.00066.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995416_17148.00069.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995416_17148.00069.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508934_17148.00069.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995553_17148.00070.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995553_17148.00070.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508927_17148.00070.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994407_17148.00071.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994407_17148.00071.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508924_17148.00071.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994781_17148.00072.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994781_17148.00072.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508940_17148.00072.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00074.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00074.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508966_17148.00074.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994617_17148.00075.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994617_17148.00075.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509019_17148.00075.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995445_17148.00077.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995445_17148.00077.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508989_17148.00077.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508956_17148.00078.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508956_17148.00078.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995395_17148.00079.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995395_17148.00079.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508954_17148.00079.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995435_17148.00080.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995435_17148.00080.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508987_17148.00080.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00082.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00082.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508965_17148.00082.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995337_17148.00083.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995337_17148.00083.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508970_17148.00083.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995151_17148.00084.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995151_17148.00084.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509021_17148.00084.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994434_17148.00085.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994434_17148.00085.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508993_17148.00085.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00086.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00086.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508960_17148.00086.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995212_17148.00087.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995212_17148.00087.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509013_17148.00087.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995342_17148.00088.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995342_17148.00088.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509009_17148.00088.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995497_17148.00090.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995497_17148.00090.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508963_17148.00090.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994925_17148.00092.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994925_17148.00092.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508973_17148.00092.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995021_17148.00093.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995021_17148.00093.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508999_17148.00093.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995141_17148.00094.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995141_17148.00094.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508962_17148.00094.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995155_17148.00096.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995155_17148.00096.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508981_17148.00096.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995427_17148.00097.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995427_17148.00097.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509023_17148.00097.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995005_17148.00099.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995005_17148.00099.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509031_17148.00099.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995478_17148.00100.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995478_17148.00100.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509025_17148.00100.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995263_17148.00101.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995263_17148.00101.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509027_17148.00101.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994589_17148.00103.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994589_17148.00103.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865889_17148.00103.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995025_17148.00104.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995025_17148.00104.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509037_17148.00104.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00105.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00105.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865946_17148.00105.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994601_17148.00106.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994601_17148.00106.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865716_17148.00106.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994957_17148.00107.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994957_17148.00107.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865956_17148.00107.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995158_17148.00108.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995158_17148.00108.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509056_17148.00108.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995539_17148.00110.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995539_17148.00110.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865916_17148.00110.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995365_17148.00111.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995365_17148.00111.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509057_17148.00111.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995059_17148.00113.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995059_17148.00113.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19866013_17148.00113.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994641_17148.00115.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994641_17148.00115.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509102_17148.00115.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995560_17148.00117.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995560_17148.00117.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509083_17148.00117.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995549_17148.00119.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995549_17148.00119.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509067_17148.00119.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995566_17148.00120.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995566_17148.00120.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865931_17148.00120.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995210_17148.00121.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995210_17148.00121.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509091_17148.00121.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995451_17148.00123.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995451_17148.00123.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508834_17148.00123.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995612_17148.00125.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995612_17148.00125.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508833_17148.00125.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995459_17148.00126.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995459_17148.00126.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865582_17148.00126.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995354_17148.00127.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995354_17148.00127.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508838_17148.00127.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995087_17148.00078.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508956_17148.00078.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995395_17148.00079.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995395_17148.00079.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508954_17148.00079.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995435_17148.00080.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995435_17148.00080.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508987_17148.00080.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00082.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00082.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508965_17148.00082.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995337_17148.00083.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995337_17148.00083.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508970_17148.00083.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995151_17148.00084.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995151_17148.00084.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509021_17148.00084.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994434_17148.00085.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994434_17148.00085.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508993_17148.00085.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00086.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995208_17148.00086.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508960_17148.00086.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995212_17148.00087.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995212_17148.00087.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509013_17148.00087.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995342_17148.00088.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995342_17148.00088.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509009_17148.00088.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995497_17148.00090.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995497_17148.00090.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508963_17148.00090.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994925_17148.00092.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994925_17148.00092.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508973_17148.00092.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995021_17148.00093.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995021_17148.00093.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508999_17148.00093.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995141_17148.00094.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995141_17148.00094.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508962_17148.00094.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995155_17148.00096.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995155_17148.00096.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508981_17148.00096.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995427_17148.00097.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995427_17148.00097.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509023_17148.00097.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995005_17148.00099.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995005_17148.00099.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509031_17148.00099.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995478_17148.00100.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995478_17148.00100.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509025_17148.00100.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995263_17148.00101.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995263_17148.00101.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509027_17148.00101.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994589_17148.00103.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994589_17148.00103.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865889_17148.00103.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995025_17148.00104.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995025_17148.00104.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509037_17148.00104.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00105.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995205_17148.00105.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865946_17148.00105.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994601_17148.00106.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994601_17148.00106.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865716_17148.00106.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994957_17148.00107.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994957_17148.00107.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865956_17148.00107.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995158_17148.00108.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995158_17148.00108.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509056_17148.00108.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995539_17148.00110.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995539_17148.00110.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865916_17148.00110.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995365_17148.00111.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995365_17148.00111.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509057_17148.00111.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995059_17148.00113.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995059_17148.00113.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19866013_17148.00113.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994641_17148.00115.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2994641_17148.00115.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509102_17148.00115.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995560_17148.00117.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995560_17148.00117.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509083_17148.00117.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995549_17148.00119.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995549_17148.00119.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509067_17148.00119.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995566_17148.00120.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995566_17148.00120.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865931_17148.00120.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995210_17148.00121.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995210_17148.00121.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20509091_17148.00121.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995451_17148.00123.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995451_17148.00123.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508834_17148.00123.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995612_17148.00125.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995612_17148.00125.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508833_17148.00125.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995459_17148.00126.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995459_17148.00126.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_19865582_17148.00126.root"]
+} ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995354_17148.00127.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_17000/17148/gm2offline_full_2995354_17148.00127.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_17000/17148/gm2offline_full_20508838_17148.00127.root"]
+} ]

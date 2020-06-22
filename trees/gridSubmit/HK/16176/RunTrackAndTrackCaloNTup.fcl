@@ -119,20 +119,15 @@ physics : {
 
 } // end of physics block
 
-source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3137912_16176.00063.root" ]
+
+source.fileNames: [ "/pnfs/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139635_16176.00441.root" ]
 source.secondaryFileNames: [ {
-  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3137912_16176.00063.root"
-  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_16000/16176/gm2offline_full_21949177_16176.00063.root"]
+  a: "/pnfs/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139635_16176.00441.root"
+  b: ["/pnfs/GM2/daq/run1/offline/gm2_5040D/runs_16000/16176/gm2offline_full_21992040_16176.00441.root"]
 } ]
 
-source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3137899_16176.00252.root" ]
+source.fileNames: [ "/pnfs/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139635_16176.00441.root" ]
 source.secondaryFileNames: [ {
-  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3137899_16176.00252.root"
-  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_16000/16176/gm2offline_full_21949507_16176.00252.root"]
-} ]
-
-source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139415_16176.00299.root" ]
-source.secondaryFileNames: [ {
-  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139415_16176.00299.root"
-  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040A/runs_16000/16176/gm2offline_full_21950580_16176.00299.root"]
+  a: "/pnfs/GM2/daq/run1/offline/gm2_5042B/runs_16000/16176/gm2offline_full_3139635_16176.00441.root"
+  b: ["/pnfs/GM2/daq/run1/offline/gm2_5040D/runs_16000/16176/gm2offline_full_8029415_16176.00441.root"]
 } ]

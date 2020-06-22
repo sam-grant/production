@@ -63,12 +63,12 @@ for line in `cat SAMFileList.txt`; do
 
   # Check output exists before adding - ignore those where the tracker had problems
   if ! grep -Fxq "${run} ${subrun}" ../../BadTrackerSubRuns.txt ; then
-    if [ -f /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_60h/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
-      echo /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_60h/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root >> FileList.txt
-    else 
-      echo "File \"/pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_60h/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root\" does not exist, but run/sub-run are in dataset $dataset."
-      rm -f FileList*.txt
-      return;
+    if [ -f /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_EG/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
+      echo /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_EG/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root >> FileList.txt
+#    else 
+#      echo "File \"/pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_EG/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root\" does not exist, but run/sub-run are in dataset $dataset."
+#      rm -f FileList*.txt
+#      return;
     fi
   fi
 

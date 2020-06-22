@@ -117,7 +117,7 @@ fi
 
 #Setup gm2
 source /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
-setup gm2 v9_42_00 -q prof
+setup gm2 v9_45_00 -q prof
 
 #Add current directory to LD_LIBRARY_PATH for so file we copied
 export LD_LIBRARY_PATH=\`pwd\`:\$LD_LIBRARY_PATH
@@ -171,7 +171,7 @@ while [ ! -f ${pnfsOutDir}/runTrackAndTrackCaloTrees${fileNum}.sh ]; do
 done
 
 #Submit grid job, comment this line if testing
-jobsub_submit -N 1 -G gm2 --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC --expected-lifetime=4h --role=Analysis file://${pnfsOutDir}/runTrackAndTrackCaloTrees${fileNum}.sh
+jobsub_submit -N 1 -G gm2 --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC --expected-lifetime=8h --role=Analysis file://${pnfsOutDir}/runTrackAndTrackCaloTrees${fileNum}.sh
 rm -f runTrackAndTrackCaloTrees${fileNum}.sh
 rm -f xrootdFileList${fileNum}.txt
 rm -f SplitFileList${fileNum}.txt

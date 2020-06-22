@@ -130,3 +130,9 @@ source.secondaryFileNames: [ {
   a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5039A/runs_15000/15921/gm2offline_full_18878425_15921.00020.root"
   b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5037A/runs_15000/15921/gm2offline_full_17673074_15921.00020.root"]
 } ]
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5039A/runs_15000/15921/gm2offline_full_18878414_15921.00019.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5039A/runs_15000/15921/gm2offline_full_18878414_15921.00019.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5037A/runs_15000/15921/gm2offline_full_17672788_15921.00019.root"]
+} ]

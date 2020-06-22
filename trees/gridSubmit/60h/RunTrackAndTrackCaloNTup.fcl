@@ -103,7 +103,6 @@ physics : {
     trackAndTrackCalo : {
       module_type : TrackAndTrackCaloNTup
       // SelectEvents : [ "matchingPath" ]
-      // DQC... strawPath doesn't work. Matching path has no out-of-fill DQC
       SelectEvents : [ "offline:muonPathwithDQC" , "offline:inFillLaserPathwithDQC" ]
       //SelectEvents:["offline:strawPathwithDQC"] // "offline:strawPathwithDQC"]offline:strawPathwithDQC
       printOut : false

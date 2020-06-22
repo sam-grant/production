@@ -1,7 +1,7 @@
 #!/bin/bash
+dataset="EG_final" 
 
-#for file in `ls /gm2/data/g2be/Production/TrackAndTrackCaloTrees/Run1/60h/trackAndTrackCaloTrees_*.root`; do
-for file in `ls /gm2/data/g2be/Production/TrackAndTrackCaloTrees/Run1/9d/trackAndTrackCaloTrees_*.root`; do
+for file in `ls /gm2/data/g2be/Production/TrackAndTrackCaloTrees/Run1/${dataset}/trackAndTrackCaloTrees_*.root`; do
     echo $file
     ./PlotterTrackAndTrackCalo $file
 done

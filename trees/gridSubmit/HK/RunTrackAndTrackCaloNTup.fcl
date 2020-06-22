@@ -118,3 +118,9 @@ physics : {
   end_paths     : [treePath]
 
 } // end of physics block
+
+source.fileNames: [ "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16115/gm2offline_full_27645768_16115.00375.root" ]
+source.secondaryFileNames: [ {
+  a: "root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5042B/runs_16000/16115/gm2offline_full_27645768_16115.00375.root"
+  b: ["root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/GM2/daq/run1/offline/gm2_5040D/runs_16000/16115/gm2offline_full_*_16115.00375.root"]
+} ]

@@ -48,7 +48,7 @@ while read line; do
       bash -c ". submitFiles.sh"
       rm -f FileList.txt && touch FileList.txt
       # If testing, add return statment here
-      return
+#      return
     fi
     fullFilePathCalo=`samweb -e gm2 locate-file $caloFile`
     currRunPathCalo=/pnfs${fullFilePathCalo##*/pnfs}
@@ -64,6 +64,7 @@ while read line; do
     if ! grep -Fxq "${run} ${subrun}" BadTrackerSubRuns.txt ; then
       if ! grep -Fxq "${run} ${subrun}" DifferentDQCSubRuns.txt ; then
         if [ ! -f /pnfs/GM2/scratch/users/${USER}/TrackAndTrackCaloTrees_HK/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
+       # if [ ! -f /gm2/data/users/${USER}/TrackAndTrackCaloTrees_HK/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
           echo ${currRunPathCalo}/${caloFile} ${currRunPathTracker}/${trackerFile} >> FileList.txt
         fi
       fi

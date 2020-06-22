@@ -8,6 +8,8 @@ if [ "$#" -ne 1 ]; then
 fi
 dataset=$1
 pnfsOutDir=/pnfs/GM2/scratch/users/${USER}/TrackAndTrackCaloTrees_HK
+#pnfsOutDir=/gm2/data/users/${USER}/TrackAndTrackCaloTrees_HK
+echo $pnfsOutDir
 echo "Checking output files for $dataset in $pnfsOutDir"
 
 # Get list of sub-runs in this dataset
@@ -28,8 +30,8 @@ for line in `cat SAMFileList.txt`; do
     if ! grep -Fxq "${run} ${subrun}" BadTrackerSubRuns.txt ; then
       if ! grep -Fxq "${run} ${subrun}" DifferentDQCSubRuns.txt ; then
         if [ ! -f ${pnfsOutDir}/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
-          #echo ${run}" "${subrun}" "${line}
-	    echo ${subrun}
+          echo ${line}
+#	    echo ${subrun}
 #	  echo 
         fi
       fi

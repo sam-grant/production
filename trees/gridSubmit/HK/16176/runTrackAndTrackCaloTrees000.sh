@@ -3,25 +3,6 @@ source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setups
 source /cvmfs/fermilab.opensciencegrid.org/products/larsoft/setup
 setup ifdhc
 
-# Copy xrootdFileList000 here
-# if [ ! -z "`ifdh ls /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/xrootdFileList000.txt`" ]; then
-#   ifdh cp /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/xrootdFileList000.txt xrootdFileList000.txt
-# else 
-#   echo "/pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/xrootdFileList000.txt does not exist"
-# fi
-
-#Copy fcl and so files
-if [ ! -z "`ifdh ls /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/RunTrackAndTrackCaloNTup.fcl`" ]; then
-  ifdh cp /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/RunTrackAndTrackCaloNTup.fcl ./RunTrackAndTrackCaloNTup.fcl
-else 
-  echo "/pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/RunTrackAndTrackCaloNTup.fcl does not exist"
-fi
-if [ ! -z "`ifdh ls /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/libgm2analyses_strawtracker_TrackAndTrackCaloNTup_module.so`" ]; then
-  ifdh cp /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/libgm2analyses_strawtracker_TrackAndTrackCaloNTup_module.so ./libgm2analyses_strawtracker_TrackAndTrackCaloNTup_module.so
-else 
-  echo "/pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_HK/16176/libgm2analyses_strawtracker_TrackAndTrackCaloNTup_module.so does not exist"
-fi
-
 #Setup gm2
 source /cvmfs/gm2.opensciencegrid.org/prod/g-2/setup
 setup gm2 v9_42_00 -q prof

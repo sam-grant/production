@@ -29,8 +29,8 @@ void Plotter::InitHistos() {
   plot1D("verticalPos",400,-200,200,"Vertical position [mm]");
   plot1D("decayVertexMom",128,0,3200,"Decay vertex momentum [MeV]");
   plot2D("zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
-  //plot2D("St12_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
-  //plot2D("St18_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+  plot2D("St12_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+  plot2D("St18_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
   plot2D("radialPos_vs_time",6000,0,900000,500,-250,250,"Decay time [ns]","Radial decay vertex position [mm]");
   plot2D("verticalPos_vs_time",6000,0,900000,500,-100,100, "Decay time [ns]", "Vertical decay vertex position [mm]");
 
@@ -48,9 +48,8 @@ void Plotter::Run() {
 
     int run = tr->runNum;
     int subRun = tr->subRunNum;
-    if(run==16154 && subRun==30) std::cout<<run<<"\t"<<subRun<<std::endl;
 
-    //if(!tr->passVertexQuality) continue;
+    if(!tr->passVertexQuality) continue;
     if(!tr->passTrackQuality) continue;
 
     Fill1D("pValues",tr->trackPValue);
@@ -64,8 +63,8 @@ void Plotter::Run() {
     Fill1D("verticalPos",tr->decayVertexPosY);
     Fill1D("decayVertexMom",p);
     Fill2D("zPos_vs_xPos",tr->decayVertexPosX,tr->decayVertexPosZ);
-   // if(tr->station == 12) Fill2D("St12_zPos_vs_xPos",tr->decayVertexPosX,tr->decayVertexPosZ);
-   // else if(tr->station == 18) Fill2D("St18_zPos_vs_xPos",tr->decayVertexPosX,tr->decayVertexPosZ);
+    if(tr->station == 12) Fill2D("St12_zPos_vs_xPos",tr->decayVertexPosX,tr->decayVertexPosZ);
+    else if(tr->station == 18) Fill2D("St18_zPos_vs_xPos",tr->decayVertexPosX,tr->decayVertexPosZ);
     Fill2D("radialPos_vs_time",tr->decayTime, R);
     Fill2D("verticalPos_vs_time",tr->decayTime,tr->decayVertexPosY);
 
