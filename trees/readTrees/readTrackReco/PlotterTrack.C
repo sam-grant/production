@@ -68,27 +68,6 @@ void Plotter::Run() {
     Fill2D("radialPos_vs_time",tr->decayTime, R);
     Fill2D("verticalPos_vs_time",tr->decayTime,tr->decayVertexPosY);
 
-//    if(tr->passVertexQuality == false) continue;
-//    
-//    int stn = tr->station;
-//    //    std::cout<<"Stn : "<<stn<<std::endl;
-//    double decayT = (tr->decayT0);// * 1e-3; // ns -> us
-//
-//    double decayX = tr->decayVertexPosX;
-//    double decayZ = tr->decayVertexPosZ;
-//    double decayR = sqrt(decayX*decayX+decayZ*decayZ) - 7112; // Set the magic radius to zero
-//
-//    
-//    Fill1D("DecayTime", decayT);
-//    Fill2D("DecayX_vs_DecayZ", decayX, decayZ);
-//    Fill2D("RadialDecayVertex_vs_DecayTime", decayT, decayR);
-//
-//
-//    //Fill1D("S"+std::to_string(stn)+"_DecayTime", decayT);
-//    Fill2D("S"+std::to_string(stn)+"_DecayX_vs_DecayZ",decayX, decayZ);
-//    Fill2D("S"+std::to_string(stn)+"_RadialDecayVertex_vs_DecayTime", decayT, decayR);
-
-  
   }
 
   delete tr;

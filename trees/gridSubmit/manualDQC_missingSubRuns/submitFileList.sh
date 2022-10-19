@@ -61,9 +61,9 @@ while read line; do
     if grep -Fxq "${run} ${subrun}" badSubRuns_EG.txt ; then
     # if ! grep -Fxq "${run} ${subrun}" OutOfSyncSubRuns.txt ; then # Comment this when running out of synch runs
       if [ ! -f /pnfs/GM2/scratch/users/sgrant/TrackAndTrackCaloTrees_manualDQC_missingSubRuns/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
-        if [ ! -f /pnfs/GM2/scratch/users/${USER}/TrackAndTrackCaloTrees_EG_missingSubRuns/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
+        #if [ ! -f /pnfs/GM2/scratch/users/${USER}/TrackAndTrackCaloTrees_EG_missingSubRuns/${run}/trackAndTrackCaloTrees_${run}.${subrun}.root ]; then
           echo ${currRunPathCalo}/${caloFile} ${currRunPathTracker}/${trackerFile} >> FileList.txt
-        fi
+        #fi
       fi
     fi
   fi

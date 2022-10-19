@@ -268,7 +268,7 @@ int main(int argc, char *argv[]){
   
   if (argc < 2){
     cout<<"Using hard-coded file list"<<endl;
-    fileNames.push_back("/gm2/data/g2be/Production/TrackAndTrackCaloTrees/Run1/60h/trackAndTrackCaloTrees_15921.root");
+    fileNames.push_back("/gm2/data/g2be/Production/Trees/Run1/trackRecoTrees_15921.root"); 
   }
   
   for (int i = 1; i < argc; ++i){

@@ -74,9 +74,10 @@ services : {
     fileName : "trackAndTrackCaloTrees.root"
   }
 
-
-  TrackQuality : {}
-  
+  TrackQuality : {
+  	       vertexTimeDiffSt12 : [-10, 10]
+  	       vertexTimeDiffSt18 : [-10, 10]
+  }  
 
 } // end of services block
    
@@ -95,15 +96,16 @@ physics : {
       clusterModuleLabel    : hitClusterDAQ 
       clusterInstanceLabel  : cluster
       coincidenceTimeWindow : [-15,10] // ns
-      throwOnEmptyCluster : false
+      throwOnEmptyCluster : false // set to true for the out-of-synch runs
     }
   } // end of producer block 
 
   analyzers : {
     trackAndTrackCalo : {
       module_type : TrackAndTrackCaloNTup
-      SelectEvents : [ "offline:muonPathwithDQC" , "offline:inFillLaserPathwithDQC" ] 
-// SelectEvents : [ "offline:strawPathwithDQC" ]
+      // SelectEvents : [ "matchingPath" ]
+      SelectEvents : [ "offline:muonPathwithDQC" , "offline:inFillLaserPathwithDQC" ]
+      //SelectEvents:["offline:strawPathwithDQC"] // "offline:strawPathwithDQC"]offline:strawPathwithDQC
       printOut : false
       backwardModuleLabel : "extrapBugCorrector"
     }

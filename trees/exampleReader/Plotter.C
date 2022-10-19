@@ -41,6 +41,7 @@ void Plotter::InitHistos() {
   plot2D("cluY_vs_cluX",300,-150,150,200,-100,100,"Cluster X [mm]", "Cluster Y [mm]");
   plot2D("EoverP_vs_time",6000,0,900000,100,0,3,"Cluster time [ns]", "E/p");
   plot2D("uncorrEoverP_vs_time",6000,0,900000,100,0,3,"Cluster time [ns]", "E_{uncorr}/p");
+  
 }
 
 //=========================================================
@@ -52,10 +53,11 @@ void Plotter::Run() {
   //loop over the clusterTracker/tracker tree:
   while( NextTrackAndTrackCaloEvent() ) {
 
-    // I recommend always keeping these on
-    if(!ttc->hasCaloVertex) continue;
+    // I recommend always keeping this on
     if(!ttc->hasDecayVertex) continue;
 
+    //if(!ttc->hasCaloVertex) continue;
+    
     // Track and decay vertex level quality cuts
 
     //if(!ttc->passTrackQuality) continue;

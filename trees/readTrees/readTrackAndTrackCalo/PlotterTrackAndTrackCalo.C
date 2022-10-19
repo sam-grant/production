@@ -125,8 +125,8 @@ void Plotter::Run() {
     // Cluster varaibles are arrays
     for(int i = 0; i<ttc->nCluMatches; i++) { 
 
-      if(!ttc->passPositronVertexQuality[i]) continue;
-      //if(!ttc->passLostMuonVertexQuality[i]) continue;
+      //if(!ttc->passPositronVertexQuality[i]) continue;
+      if(!ttc->passLostMuonVertexQuality[i]) continue;
       //if(!ttc->passCaloVertexQuality[i]) continue;
 
       Fill1D("clusterTime",ttc->clusterTime[i]);
